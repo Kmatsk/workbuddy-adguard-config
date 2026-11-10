@@ -3,7 +3,7 @@
   "name": "AdGuard DNS filter",
   "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt",
   "enabled": true,
-  "rules_count": 188404
+  "rules_count": 188505
  },
  {
   "name": "AdAway Default Blocklist",
@@ -39,7 +39,7 @@
   "name": "HaGeZi's Pro Blocklist",
   "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_48.txt",
   "enabled": true,
-  "rules_count": 223328
+  "rules_count": 223961
  },
  {
   "name": "HaGeZi's Xiaomi Tracker",
@@ -75,13 +75,13 @@
   "name": "Phishing Army",
   "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_18.txt",
   "enabled": true,
-  "rules_count": 143852
+  "rules_count": 143832
  },
  {
   "name": "ShadowWhisperer's Malware List",
   "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_42.txt",
   "enabled": true,
-  "rules_count": 47780
+  "rules_count": 47784
  },
  {
   "name": "国内 App/视频/搜索广告补充包",
@@ -93,7 +93,7 @@
   "name": "OISD Blocklist Small (移动广告兜底)",
   "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_5.txt",
   "enabled": true,
-  "rules_count": 60521
+  "rules_count": 60665
  },
  {
   "name": "AdGuard DNS Popup Hosts (弹窗劫持)",
@@ -117,18 +117,18 @@
   "name": "家长控制-成人内容 (HaGeZi NSFW)",
   "url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/nsfw.txt",
   "enabled": true,
-  "rules_count": 74038
+  "rules_count": 74740
  },
  {
   "name": "家长控制-成人内容扩充 (OISD NSFW)",
   "url": "https://nsfw.oisd.nl/",
   "enabled": true,
-  "rules_count": 486391
+  "rules_count": 486543
  },
  {
   "name": "家长控制-赌博 (HaGeZi Gambling)",
   "url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/gambling.txt",
   "enabled": true,
-  "rules_count": 641078
+  "rules_count": 642639
  }
 ]

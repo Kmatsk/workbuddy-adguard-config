@@ -21,7 +21,7 @@
 | 项 | 值 |
 |---|---|
 | 过滤列表 | 22 个，合计 2,185,604 条规则 |
-| 自定义规则 | 78 条（含家长控制、误杀豁免） |
+| 自定义规则 | 102 条（含家长控制、App 广告 SDK、误杀豁免） |
 | 主上游 | `tls://223.5.5.5` + `tls://223.6.6.6`（parallel） |
 | 备用上游 | `tls://1.12.12.12` |
 | 安全搜索 | 开启，7 个引擎（Bing/Google/DuckDuckGo/YouTube/Yandex/Ecosia/Pixabay） |
@@ -35,7 +35,7 @@
 | 文件 | 用途 |
 |---|---|
 | `config/AdGuardHome.yaml` | 完整配置（**密码已脱敏**，恢复后需重新生成） |
-| `config/user-rules.txt` | 78 条自定义过滤规则 |
+| `config/user-rules.txt` | 102 条自定义过滤规则 |
 | `config/filters.json` | 22 个订阅列表的清单（名称 / URL / 开关 / 条数） |
 | `config/settings.json` | 运行态快照：DNS 参数、安全搜索、安全浏览、统计 |
 | `scripts/healthcheck.py` | 体检脚本，纯标准库，任意机器可跑 |
@@ -61,6 +61,29 @@ sudo bash scripts/restore-adguard.sh
 
 **必须重启容器**——AdGuard 有配置热加载不彻底的毛病，改完不重启会出现
 「yaml 已写入但运行进程还是旧参数」的假象（安全搜索就踩过这个坑）。
+
+## App 广告 SDK 拦截（2026-11-10）
+
+针对小米 K70（192.168.3.104）上的「班级小管家」（`com.banjixiaoguanjia.app`，北京校萌科技）做
+DNS 层广告治理。依据是该 App 官方公示的《第三方 SDK 目录》——23 个 SDK 中有 **15 个明确标注
+「使用目的：广告」**（友盟、优量汇、穿山甲、快手联盟、Funlink、美数、AdScope/倍孜、亿帆、
+优推、Octopus、脉盟、极准瑞量、金丝雀、HX）。
+
+| 分类 | 处理 |
+|---|---|
+| 已被 218 万条内置列表覆盖 | 优量汇 `gdt.qq.com`/`e.qq.com`、穿山甲 `pangolin-sdk-toutiao.com`/`pglstatp-toutiao.com`、快手 `gdfp.gifshow.com`/`ad.kuaishou.com`、友盟 `umeng.com`、Funlink `adfunlink.com`、倍孜 `beizi.biz`、亿帆 `yfanads.cn`、Octopus `zhangyuyidong.cn`、脉盟 `adwangmai.com`、优推 `ad.gameley.com` |
+| 本次新增 11 条自定义规则 | `atdplus.cn`（美数）、`qttunion.com`（趣盟）、`innoads.cn`、`sspapi.qingxuntech.cn`、`vista.divms.cn`、`shunchangzhixing.com`（顺昌之星）、`hzjizhun.cn`/`hzjizhun.com`（极准）、`baihemob.com`（金丝雀）、`dashisx.com`（HX）、`adlog.kuaishou.com` |
+
+新增依据不只是 SDK 名单：当日 12000 条 DNS 日志里，`sdk-n.innoads.cn`、`sspapi.qingxuntech.cn`、
+`vista.divms.cn`、`inner-empty/inner-report.shunchangzhixing.com`、`jp/de.ad.gameley.com`
+全部处于**放行**状态且持续被请求，说明内置列表漏了这些聚合/监测链路，而它们正是残留广告的来源。
+
+**不能按设备生效**：华为 AX3 做 DNS 代理转发时用 WAN 地址（171.9.89.38）做源，AdGuard 侧
+全部请求同源，`$client` 与 per-client 配置全部失效，所以规则是全家全局生效。
+
+**不能碰的域名**（App 自身业务链路，误杀会白屏/无法登录）：`b.welife001.com`、
+`allsystemfile.welife001.com`、`service.banjixiaoguanjia.com`、`a.welife001.com`，
+以及微信登录支付 `api.weixin.qq.com`、`open.weixin.qq.com`、`payapp.weixin.qq.com`。
 
 ## 体检
 
