@@ -127,10 +127,22 @@ DNS 层广告治理。依据是该 App 官方公示的《第三方 SDK 目录》
 | `||dns.toutiao.com^` | 头条 HTTPDNS，12h 内 6 次；不封可自行解析广告域名绕过过滤 |
 | `||httpdns.toutiao.com^` | 同上，6 次 |
 
-**剪映**：24 小时日志里**零流量**（`ulikecam.com`、`lemon.lv`、`capcut.com` 都没有任何请求），
-说明这个 App 近期没打开过，因此无法用日志确认其广告链路。已知情况：剪映的广告位主要是
-会员/活动推广，走自有 API（与内容同域，DNS 拦不了）；若开屏有第三方广告，通常也是穿山甲，
-已被拦。要确认需打开一次剪映，再做 60 秒抓取。
+**剪映**：2026-11-10 21:53 实测抓到完整会话（20 条查询 / 12 个域名 / 0 失败），结论如下。
+
+| 类别 | 域名 | 处理 |
+|---|---|---|
+| 内容接口 | `lv-api*.ulikecam.com`、`lv-biz-api-*.ulikecam.com`、`lv-qos-api-*.ulikecam.com` | 放行（主 API，拦了白屏） |
+| 素材 CDN | `lv.ulikecam.com`、`lv-effect.ulikecam.com` | 放行（贴纸/特效素材） |
+| 模板预览 | `v6/v9/v26-jianying.vlabvod.com` | 放行（剪同款预览视频） |
+| 资源下发 | `n98-lf-jianying-app-ncdn-ncdn.bytetos.com` | 放行（安装资源/皮肤） |
+| 广告 | `api-access.pangolin-sdk-toutiao{,1,-b}.com`、`log-api.pangolin-sdk-toutiao.com`、`gromore.pangolin-sdk-toutiao.com`、`sf3/sf6-fe-tos.pglstatp-toutiao.com`、`ads.toutiao.com` | **已拦**（内置列表） |
+| 广告归因 | `toblog/tobapplog.ctobsnssdk.com`、`mssdk.volces.com`、`apmplus.volces.com` | **已拦**（内置列表） |
+
+剪映自有广告子域全部不存在（`ad/ads/lv-ad.ulikecam.com`、`ad.lemon.lv`、`ad.capcut.cn`
+实测 NXDOMAIN），所以**没有可补的自有规则**；它的开屏与模板页广告 100% 走穿山甲/巨量。
+
+剩下的「像广告」的内容是剪映自营推广位（会员、模板推荐、剪同款榜单），由 `lv-api.ulikecam.com`
+与内容一起下发，DNS 层无法区分，拦域名等于禁用 App。
 
 ## 体检
 
