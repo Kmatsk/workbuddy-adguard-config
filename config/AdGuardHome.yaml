@@ -312,6 +312,14 @@ user_rules:
   - '||ad.douyin.com^'
   - '! 字节 HTTPDNS：不封这条，广告域名可由 HTTPDNS 直接拿真 IP，绕过本地所有过滤'
   - '||httpdns.bytedance.com^'
+  - '! ===== 今日头条 / 剪映（2026-11-10）====='
+  - '! 头条信息流广告主体走穿山甲/巨量（pangolin-sdk-toutiao*、pglstatp、ad.toutiao.com 已被内置列表拦），'
+  - '! 下面补三条实测仍放行的自售/旁路通道：'
+  - '! 头条自售广告接口（日志 12h 内 4 次，未被任何列表覆盖）'
+  - '||ads.toutiao.com^'
+  - '! 头条 HTTPDNS（日志 12h 内各 6 次）：不封这条，App 可自行解析广告域名，绕过本地过滤'
+  - '||dns.toutiao.com^'
+  - '||httpdns.toutiao.com^'
 dhcp:
   enabled: false
   interface_name: ""

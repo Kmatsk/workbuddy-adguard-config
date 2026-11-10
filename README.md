@@ -21,7 +21,7 @@
 | 项 | 值 |
 |---|---|
 | 过滤列表 | 22 个，合计 2,185,604 条规则 |
-| 自定义规则 | 113 条（含家长控制、App 广告 SDK、误杀豁免） |
+| 自定义规则 | 121 条（含家长控制、App 广告 SDK、误杀豁免） |
 | 主上游 | `tls://223.5.5.5` + `tls://223.6.6.6`（parallel） |
 | 备用上游 | `tls://1.12.12.12` |
 | 安全搜索 | 开启，7 个引擎（Bing/Google/DuckDuckGo/YouTube/Yandex/Ecosia/Pixabay） |
@@ -35,7 +35,7 @@
 | 文件 | 用途 |
 |---|---|
 | `config/AdGuardHome.yaml` | 完整配置（**密码已脱敏**，恢复后需重新生成） |
-| `config/user-rules.txt` | 113 条自定义过滤规则 |
+| `config/user-rules.txt` | 121 条自定义过滤规则 |
 | `config/filters.json` | 22 个订阅列表的清单（名称 / URL / 开关 / 条数） |
 | `config/settings.json` | 运行态快照：DNS 参数、安全搜索、安全浏览、统计 |
 | `scripts/healthcheck.py` | 体检脚本，纯标准库，任意机器可跑 |
@@ -114,6 +114,23 @@ DNS 层广告治理。依据是该 App 官方公示的《第三方 SDK 目录》
 
 **回滚**：`||httpdns.bytedance.com^` 若导致字节系 App 首次加载变慢或网络异常，删这一行即可；
 `||b9ad.com^`、`||ad.douyin.com^` 可直接删，不影响其他规则。
+
+## 今日头条 / 剪映（2026-11-10）
+
+**今日头条**：信息流广告主体走穿山甲/巨量，`ad.toutiao.com`、`pangolin-sdk-toutiao*.com`、
+`pglstatp-toutiao.com`、`dm.toutiao.com`、`monsetting.toutiao.com` 都已被内置列表拦下
+（日志里能看到请求与被拦记录）。本次补三条实测「仍在放行」的通道：
+
+| 规则 | 依据 |
+|---|---|
+| `||ads.toutiao.com^` | 头条自售广告接口，12h 日志内 4 次，任何列表都没覆盖 |
+| `||dns.toutiao.com^` | 头条 HTTPDNS，12h 内 6 次；不封可自行解析广告域名绕过过滤 |
+| `||httpdns.toutiao.com^` | 同上，6 次 |
+
+**剪映**：24 小时日志里**零流量**（`ulikecam.com`、`lemon.lv`、`capcut.com` 都没有任何请求），
+说明这个 App 近期没打开过，因此无法用日志确认其广告链路。已知情况：剪映的广告位主要是
+会员/活动推广，走自有 API（与内容同域，DNS 拦不了）；若开屏有第三方广告，通常也是穿山甲，
+已被拦。要确认需打开一次剪映，再做 60 秒抓取。
 
 ## 体检
 
