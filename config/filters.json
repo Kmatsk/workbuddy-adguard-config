@@ -1,0 +1,134 @@
+[
+ {
+  "name": "AdGuard DNS filter",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt",
+  "enabled": true,
+  "rules_count": 188404
+ },
+ {
+  "name": "AdAway Default Blocklist",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_2.txt",
+  "enabled": false,
+  "rules_count": 0
+ },
+ {
+  "name": "anti-AD (中文广告)",
+  "url": "https://anti-ad.net/adguard.txt",
+  "enabled": true,
+  "rules_count": 102508
+ },
+ {
+  "name": "抖音/字节广告（保守档）",
+  "url": "https://raw.githubusercontent.com/Kmatsk/workbuddy-proxy-config/main/adguard/douyin-ads.txt",
+  "enabled": true,
+  "rules_count": 12
+ },
+ {
+  "name": "CHN: AdRules DNS List",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_29.txt",
+  "enabled": true,
+  "rules_count": 208476
+ },
+ {
+  "name": "AWAvenue Ads Rule",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_53.txt",
+  "enabled": true,
+  "rules_count": 913
+ },
+ {
+  "name": "HaGeZi's Pro Blocklist",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_48.txt",
+  "enabled": true,
+  "rules_count": 223328
+ },
+ {
+  "name": "HaGeZi's Xiaomi Tracker",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_60.txt",
+  "enabled": true,
+  "rules_count": 349
+ },
+ {
+  "name": "HaGeZi's Vivo Tracker",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_65.txt",
+  "enabled": true,
+  "rules_count": 243
+ },
+ {
+  "name": "HaGeZi's OPPO/Realme Tracker",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_66.txt",
+  "enabled": true,
+  "rules_count": 489
+ },
+ {
+  "name": "HaGeZi's Huawei Tracker",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_73.txt",
+  "enabled": true,
+  "rules_count": 146
+ },
+ {
+  "name": "Malicious URL Blocklist (URLHaus)",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_11.txt",
+  "enabled": true,
+  "rules_count": 1929
+ },
+ {
+  "name": "Phishing Army",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_18.txt",
+  "enabled": true,
+  "rules_count": 143852
+ },
+ {
+  "name": "ShadowWhisperer's Malware List",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_42.txt",
+  "enabled": true,
+  "rules_count": 47780
+ },
+ {
+  "name": "国内 App/视频/搜索广告补充包",
+  "url": "https://raw.githubusercontent.com/Kmatsk/workbuddy-proxy-config/main/adguard/china-app-ads.txt",
+  "enabled": true,
+  "rules_count": 41
+ },
+ {
+  "name": "OISD Blocklist Small (移动广告兜底)",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_5.txt",
+  "enabled": true,
+  "rules_count": 60521
+ },
+ {
+  "name": "AdGuard DNS Popup Hosts (弹窗劫持)",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_59.txt",
+  "enabled": true,
+  "rules_count": 1047
+ },
+ {
+  "name": "Dandelion Anti Push Notifications (网页推送钓鱼)",
+  "url": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_39.txt",
+  "enabled": true,
+  "rules_count": 490
+ },
+ {
+  "name": "家长控制-防DNS绕过 (HaGeZi DoH)",
+  "url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/doh.txt",
+  "enabled": true,
+  "rules_count": 3569
+ },
+ {
+  "name": "家长控制-成人内容 (HaGeZi NSFW)",
+  "url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/nsfw.txt",
+  "enabled": true,
+  "rules_count": 74038
+ },
+ {
+  "name": "家长控制-成人内容扩充 (OISD NSFW)",
+  "url": "https://nsfw.oisd.nl/",
+  "enabled": true,
+  "rules_count": 486391
+ },
+ {
+  "name": "家长控制-赌博 (HaGeZi Gambling)",
+  "url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/gambling.txt",
+  "enabled": true,
+  "rules_count": 641078
+ }
+]

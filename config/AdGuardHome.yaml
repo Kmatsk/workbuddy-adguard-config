@@ -1,0 +1,353 @@
+http:
+  pprof:
+    port: 6060
+    enabled: false
+  doh:
+    routes:
+      - GET /dns-query
+      - POST /dns-query
+      - GET /dns-query/{ClientID}
+      - POST /dns-query/{ClientID}
+    insecure_enabled: false
+  address: 0.0.0.0:3000
+  session_ttl: 30d
+users:
+  - name: Kmatsk
+    password: $2a$10$REPLACE_ME_RUN_scripts/gen-password-hash.sh
+auth_attempts: 5
+block_auth_min: 15
+http_proxy: ""
+language: ""
+theme: auto
+dns:
+  bind_hosts:
+    - 192.168.3.100
+  port: 53
+  anonymize_client_ip: false
+  ratelimit: 0
+  ratelimit_subnet_len_ipv4: 24
+  ratelimit_subnet_len_ipv6: 56
+  ratelimit_whitelist: []
+  refuse_any: true
+  upstream_dns:
+    - tls://223.5.5.5
+    - tls://223.6.6.6
+  upstream_dns_file: ""
+  bootstrap_dns:
+    - 223.5.5.5
+    - 119.29.29.29
+  fallback_dns:
+    - tls://1.12.12.12
+  upstream_mode: parallel
+  fastest_timeout: 1s
+  allowed_clients: []
+  disallowed_clients: []
+  blocked_hosts:
+    - version.bind
+    - id.server
+    - hostname.bind
+  trusted_proxies:
+    - 127.0.0.0/8
+    - ::1/128
+  cache_enabled: true
+  cache_size: 8388608
+  cache_ttl_min: 60
+  cache_ttl_max: 3600
+  cache_optimistic: true
+  cache_optimistic_answer_ttl: 30s
+  cache_optimistic_max_age: 12h
+  bogus_nxdomain: []
+  aaaa_disabled: false
+  enable_dnssec: false
+  edns_client_subnet:
+    custom_ip: ""
+    enabled: false
+    use_custom: false
+  max_goroutines: 300
+  handle_ddr: true
+  ipset: []
+  ipset_file: ""
+  bootstrap_prefer_ipv6: false
+  upstream_timeout: 3s
+  private_networks: []
+  use_private_ptr_resolvers: false
+  local_ptr_upstreams: []
+  use_dns64: false
+  dns64_prefixes: []
+  serve_http3: false
+  use_http3_upstreams: false
+  serve_plain_dns: true
+  hostsfile_enabled: true
+  pending_requests:
+    enabled: true
+tls:
+  enabled: false
+  server_name: ""
+  force_https: false
+  port_https: 443
+  port_dns_over_tls: 853
+  port_dns_over_quic: 853
+  port_dnscrypt: 0
+  dnscrypt_config_file: ""
+  certificate_chain: ""
+  private_key: ""
+  certificate_path: ""
+  private_key_path: ""
+  strict_sni_check: false
+querylog:
+  dir_path: ""
+  ignored: []
+  interval: 90d
+  size_memory: 1000
+  enabled: true
+  ignored_enabled: false
+  file_enabled: true
+statistics:
+  dir_path: ""
+  ignored: []
+  interval: 1d
+  enabled: true
+  ignored_enabled: false
+filters:
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
+    name: AdGuard DNS filter
+    id: 1
+  - enabled: false
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_2.txt
+    name: AdAway Default Blocklist
+    id: 2
+  - enabled: true
+    url: https://anti-ad.net/adguard.txt
+    name: anti-AD (中文广告)
+    id: 1794244636
+  - enabled: true
+    url: https://raw.githubusercontent.com/Kmatsk/workbuddy-proxy-config/main/adguard/douyin-ads.txt
+    name: 抖音/字节广告（保守档）
+    id: 1794244637
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_29.txt
+    name: 'CHN: AdRules DNS List'
+    id: 1794245174
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_53.txt
+    name: AWAvenue Ads Rule
+    id: 1794245175
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_48.txt
+    name: HaGeZi's Pro Blocklist
+    id: 1794245176
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_60.txt
+    name: HaGeZi's Xiaomi Tracker
+    id: 1794245177
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_65.txt
+    name: HaGeZi's Vivo Tracker
+    id: 1794245178
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_66.txt
+    name: HaGeZi's OPPO/Realme Tracker
+    id: 1794245179
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_73.txt
+    name: HaGeZi's Huawei Tracker
+    id: 1794245180
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_11.txt
+    name: Malicious URL Blocklist (URLHaus)
+    id: 1794245181
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_18.txt
+    name: Phishing Army
+    id: 1794245182
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_42.txt
+    name: ShadowWhisperer's Malware List
+    id: 1794245183
+  - enabled: true
+    url: https://raw.githubusercontent.com/Kmatsk/workbuddy-proxy-config/main/adguard/china-app-ads.txt
+    name: 国内 App/视频/搜索广告补充包
+    id: 1794245184
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_5.txt
+    name: OISD Blocklist Small (移动广告兜底)
+    id: 1794249332
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_59.txt
+    name: AdGuard DNS Popup Hosts (弹窗劫持)
+    id: 1794249333
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_39.txt
+    name: Dandelion Anti Push Notifications (网页推送钓鱼)
+    id: 1794249334
+  - enabled: true
+    url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/doh.txt
+    name: 家长控制-防DNS绕过 (HaGeZi DoH)
+    id: 1794292890
+  - enabled: true
+    url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/nsfw.txt
+    name: 家长控制-成人内容 (HaGeZi NSFW)
+    id: 1794292891
+  - enabled: true
+    url: https://nsfw.oisd.nl/
+    name: 家长控制-成人内容扩充 (OISD NSFW)
+    id: 1794292892
+  - enabled: true
+    url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/gambling.txt
+    name: 家长控制-赌博 (HaGeZi Gambling)
+    id: 1794292893
+whitelist_filters: []
+user_rules:
+  - '! ===== 关键功能白名单：防误杀（2026-11-10 手机端强化）====='
+  - '! 腾讯视频播放链路（HaGeZi Pro 误杀，会导致无法播放）'
+  - '@@||vv.video.qq.com^'
+  - '@@||vd.l.qq.com^'
+  - '! 小米推送（HaGeZi Xiaomi Tracker 误杀，断推送）'
+  - '@@||api.xmpush.xiaomi.com^'
+  - '! 微信 HTTPDNS（影响微信网络加速）'
+  - '@@||dns.weixin.qq.com^'
+  - '@@||dns.weixin.qq.com.cn^'
+  - '! 中国移动一键登录'
+  - '@@||id6.me^'
+  - '! 第三方推送通道（个推/极光/友盟/百度）'
+  - '@@||api.igexin.com^'
+  - '@@||sdk.open.phone.igexin.com^'
+  - '@@||api.jpush.cn^'
+  - '@@||api.umeng.com^'
+  - '@@||message.umeng.com^'
+  - '@@||push.zhanzhang.baidu.com^'
+  - ""
+  - '! ===== 手机 APP 广告补充（精准拦广告 SDK）====='
+  - '! 快手联盟 / 磁力引擎'
+  - '||kuaishouzt.com^'
+  - '||wskwai.com^'
+  - '||wsukwai.com^'
+  - '||ecukwai.com^'
+  - '! 阿里 DSP / 小红书开屏'
+  - '||dsp.taobao.com^'
+  - '||ads.xiaohongshu.com^'
+  - '||ad.xiaohongshu.com^'
+  - ""
+  - '! ===== 小米手机（Redmi K60）系统功能白名单 ====='
+  - '! 米家 IoT 局域网发现/配网'
+  - '@@||idm.iot.mi.com^'
+  - '! 安全中心 / 病毒扫描'
+  - '@@||api.sec.miui.com^'
+  - '! 小米 SDK 配置下发（推送注册依赖）'
+  - '@@||sdkconfig.xiaomi.com^'
+  - ""
+  - '! ===== 电视 / 机顶盒 功能白名单（防误杀，2026-11-10）====='
+  - '! 奇异果TV(爱奇艺) 系统升级 + 播放策略/DRM 接口（被 HaGeZi 拦会导致无法升级、播放报错）'
+  - '@@||ota.ptqy.gitv.tv^'
+  - '@@||policy.video.ptqy.gitv.tv^'
+  - '! 华为云 GRS 全局调度（智慧屏/华为视频/应用市场依赖）'
+  - '@@||grs.dbankcloud.com^'
+  - '! CIBN 未来电视（酷喵/芒果TV 牌照方）内容 CDN'
+  - '@@||ott.cibntv.net^'
+  - '! 移动 OTT 用户认证'
+  - '@@||ottrrs.hl.chinamobile.com^'
+  - ""
+  - '! ===== 电视 / 机顶盒 广告补充 ====='
+  - '! 乐视 TV 广告（域名可解析，原规则未覆盖）'
+  - '||ad.letv.com^'
+  - ""
+  - '! ===== 原有自定义 ====='
+  - '||tanx.com^'
+  - '||sax.sina.com.cn^'
+  - ""
+  - '! ===== 电视/机顶盒 广告补充（2026-11-10 开机日志实测）====='
+  - '! 说明：仅收录「公网可解析」的真实广告域名。'
+  - '! 海尔 tvad/ad/ads.haier.com、ads.mgtv、ads.cibntv、ads.gitv 等 30+ 个均为空壳域名'
+  - '! （电视开机时批量探测，公网 NXDOMAIN），拦截无实际效果，故不收录。'
+  - '! 爱奇艺 广告（ad.iqiyi.com 存活）'
+  - '||ad.iqiyi.com^'
+  - '! 电视家 / 影视仓 类 TVBox 应用广告'
+  - '||ad.dianshijia.com^'
+  - '||ads.dianshijia.com^'
+  - '! TCL 广告位（通用广告池）'
+  - '||ads.tcl.com^'
+  - '! 凤凰网 广告位'
+  - '||ad.ifeng.com^'
+  - '! 快手 埋点上报（手机端流量监控）'
+  - '||traffic-monitor.yximgs.com^'
+  - ""
+  - '! ===== 未成年人保护补充（2026-11-10）====='
+  - '! iOS iCloud 私人中继开启后，DNS 全部转由苹果解析，会绕过本地所有过滤。'
+  - '! 中国大陆未开放该服务，但外区 Apple ID / 漫游时可能启用，故按域名预先封堵。'
+  - '||mask-api.icloud.com^'
+  - '||mask.apple-dns.net^'
+dhcp:
+  enabled: false
+  interface_name: ""
+  local_domain_name: lan
+  dhcpv4:
+    gateway_ip: ""
+    subnet_mask: ""
+    range_start: ""
+    range_end: ""
+    lease_duration: 86400
+    icmp_timeout_msec: 1000
+    options: []
+  dhcpv6:
+    range_start: ""
+    lease_duration: 86400
+    ra_slaac_only: false
+    ra_allow_slaac: false
+filtering:
+  blocking_ipv4: ""
+  blocking_ipv6: ""
+  blocked_services:
+    schedule:
+      time_zone: UTC
+    ids: []
+  protection_disabled_until: null
+  safe_search:
+    enabled: true
+    bing: true
+    duckduckgo: true
+    ecosia: true
+    google: true
+    pixabay: true
+    yandex: true
+    youtube: true
+  blocking_mode: default
+  parental_block_host: family-block.dns.adguard.com
+  safebrowsing_block_host: standard-block.dns.adguard.com
+  rewrites: []
+  safe_fs_patterns:
+    - /opt/adguardhome/work/userfilters/*
+  max_http_size: 256MB
+  safebrowsing_cache_size: 1048576
+  safesearch_cache_size: 1048576
+  parental_cache_size: 1048576
+  cache_time: 30
+  filters_update_interval: 6
+  blocked_response_ttl: 300
+  filtering_enabled: true
+  rewrites_enabled: true
+  parental_enabled: false
+  safebrowsing_enabled: true
+  protection_enabled: true
+clients:
+  runtime_sources:
+    whois: true
+    arp: true
+    rdns: false
+    dhcp: true
+    hosts: true
+  persistent: []
+log:
+  enabled: true
+  file: ""
+  max_backups: 0
+  max_size: 100
+  max_age: 3
+  compress: false
+  local_time: false
+  verbose: false
+os:
+  group: ""
+  user: ""
+  rlimit_nofile: 0
+schema_version: 34

@@ -1,0 +1,49 @@
+{
+ "_note": "AdGuard Home 运行态快照，仅作记录；恢复以 config/AdGuardHome.yaml 为准",
+ "dns": {
+  "upstream_dns": [
+   "tls://223.5.5.5",
+   "tls://223.6.6.6"
+  ],
+  "fallback_dns": [
+   "tls://1.12.12.12"
+  ],
+  "bootstrap_dns": [
+   "223.5.5.5",
+   "119.29.29.29"
+  ],
+  "upstream_mode": "parallel",
+  "upstream_timeout": 3,
+  "cache_enabled": true,
+  "cache_size": 8388608,
+  "cache_ttl_min": 60,
+  "cache_ttl_max": 3600,
+  "cache_optimistic": true,
+  "dnssec_enabled": false,
+  "ratelimit": 0,
+  "blocking_mode": "default",
+  "resolve_clients": false,
+  "use_private_ptr_resolvers": false,
+  "local_ptr_upstreams": []
+ },
+ "safe_search": {
+  "enabled": true,
+  "bing": true,
+  "duckduckgo": true,
+  "ecosia": true,
+  "google": true,
+  "pixabay": true,
+  "yandex": true,
+  "youtube": true
+ },
+ "safe_browsing": {
+  "enabled": true
+ },
+ "stats": {
+  "num_dns_queries": 12880,
+  "num_blocked_filtering": 1891,
+  "num_replaced_safebrowsing": 0,
+  "num_replaced_safesearch": 4,
+  "avg_processing_time_ms": 325.9
+ }
+}
