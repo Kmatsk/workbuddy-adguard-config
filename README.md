@@ -21,7 +21,7 @@
 | 项 | 值 |
 |---|---|
 | 过滤列表 | 22 个，合计 2,185,604 条规则 |
-| 自定义规则 | 121 条（含家长控制、App 广告 SDK、误杀豁免） |
+| 自定义规则 | 127 条（含家长控制、App 广告 SDK、误杀豁免） |
 | 主上游 | `tls://223.5.5.5` + `tls://223.6.6.6`（parallel） |
 | 备用上游 | `tls://1.12.12.12` |
 | 安全搜索 | 开启，7 个引擎（Bing/Google/DuckDuckGo/YouTube/Yandex/Ecosia/Pixabay） |
@@ -35,7 +35,7 @@
 | 文件 | 用途 |
 |---|---|
 | `config/AdGuardHome.yaml` | 完整配置（**密码已脱敏**，恢复后需重新生成） |
-| `config/user-rules.txt` | 121 条自定义过滤规则 |
+| `config/user-rules.txt` | 127 条自定义过滤规则 |
 | `config/filters.json` | 22 个订阅列表的清单（名称 / URL / 开关 / 条数） |
 | `config/settings.json` | 运行态快照：DNS 参数、安全搜索、安全浏览、统计 |
 | `scripts/healthcheck.py` | 体检脚本，纯标准库，任意机器可跑 |
@@ -143,6 +143,29 @@ DNS 层广告治理。依据是该 App 官方公示的《第三方 SDK 目录》
 
 剩下的「像广告」的内容是剪映自营推广位（会员、模板推荐、剪同款榜单），由 `lv-api.ulikecam.com`
 与内容一起下发，DNS 层无法区分，拦域名等于禁用 App。
+
+## 抖音开屏广告（2026-11-10）
+
+抖音开屏是**自营广告**，不走穿山甲，所以前面封的 CSJ/GDT 域名对它无效：
+
+- 广告数据由主接口 `aweme.snssdk.com` 下发，与信息流同一个域名 → 拦了刷不了视频
+- 广告素材托管在独立的 **`ad-sign`** 主机上，与内容图床 **`sign`** 主机是两套
+  （实测 `p3-ad-sign.douyinpic.com` 存在，而 `p3-sign.douyinpic.com` 是内容图床）
+- 因此可以只封 ad-sign，正文图片/视频完全不受影响
+
+| 规则 | 作用 |
+|---|---|
+| `||p3-ad-sign.douyinpic.com^` | 抖音开屏/信息流广告图片素材 |
+| `||p3-ad-sign.byteimg.com^` | 字节系（头条/西瓜/剪映）广告图片素材 |
+
+生效验证：两个 ad-sign 域名返回 `0.0.0.0/::`；`p3-sign.douyinpic.com`、`p26-sign.douyinpic.com`、
+`p11.douyinpic.com`、`v3.douyinvod.com`、`aweme.snssdk.com`、`api.amemv.com` 全部正常放行。
+
+**注意**：抖音会把开屏素材缓存在 App 本地，规则生效后仍可能看到一两次旧广告。
+彻底生效需要清一次抖音缓存（设置 → 通用 → 清理占用空间）或等缓存自然过期。
+
+DNS 仍然拦不到的部分：视频类开屏（素材与正片共用 `douyinvod` CDN）、
+广告内容由主接口下发这一点本身。
 
 ## 体检
 

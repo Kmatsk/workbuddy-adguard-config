@@ -320,6 +320,12 @@ user_rules:
   - '! 头条 HTTPDNS（日志 12h 内各 6 次）：不封这条，App 可自行解析广告域名，绕过本地过滤'
   - '||dns.toutiao.com^'
   - '||httpdns.toutiao.com^'
+  - '! ===== 抖音开屏 / 字节系 广告素材 CDN（2026-11-10）====='
+  - '! 抖音开屏为自营广告：广告数据由主接口 aweme.snssdk.com 下发（与信息流同域，不可拦），'
+  - '! 但广告素材托管在独立的 ad-sign 主机上，与内容图床 p3-sign.douyinpic.com 不是同一主机。'
+  - '! 只拦 ad-sign，内容图片/视频不受影响；开屏素材拿不到会直接跳过。'
+  - '||p3-ad-sign.douyinpic.com^'
+  - '||p3-ad-sign.byteimg.com^'
 dhcp:
   enabled: false
   interface_name: ""
@@ -343,7 +349,38 @@ filtering:
   blocked_services:
     schedule:
       time_zone: UTC
-    ids: []
+    ids:
+      - activision_blizzard
+      - battle_net
+      - betano
+      - betfair
+      - betway
+      - blaze
+      - blizzard_entertainment
+      - electronic_arts
+      - epic_games
+      - fdj_united
+      - gog
+      - grindr
+      - io_interactive
+      - leagueoflegends
+      - minecraft
+      - nintendo
+      - origin
+      - playstation
+      - plenty_of_fish
+      - riot_games
+      - roblox
+      - rockstar_games
+      - shell_shockers
+      - steam
+      - tinder
+      - ubisoft
+      - valorant
+      - wargaming
+      - warnerbrosgames
+      - wizz
+      - xboxlive
   protection_disabled_until: null
   safe_search:
     enabled: true
