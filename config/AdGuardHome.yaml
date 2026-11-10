@@ -301,6 +301,17 @@ user_rules:
   - '||dashisx.com^'
   - '! 快手联盟 广告日志上报'
   - '||adlog.kuaishou.com^'
+  - '! ===== 小米视频 / 番茄 / 喜番 / 红果 / 西瓜视频 广告补充（2026-11-10）====='
+  - '! 五款 App 的开屏与信息流主要走穿山甲(CSJ)、优量汇、快手联盟、小米广告，'
+  - '! 这些域名已在 219 万条内置列表内（日志可见 api-access.pangolin-sdk-toutiao*.com'
+  - '! / gromore / pglstatp / sf*-fe-tos / ad.kuaishou / api.ad.xiaomi.com 均被 FilteredBlackList）。'
+  - '! 下面只补日志与 nslookup 实测「仍在放行」的旁路通道：'
+  - '! B9 广告平台（t.b9ad.com 埋点、dmmc.b9ad.com 监测，实测活跃）'
+  - '||b9ad.com^'
+  - '! 抖音广告投放/结算接口（实测解析到 39.106.179.250）'
+  - '||ad.douyin.com^'
+  - '! 字节 HTTPDNS：不封这条，广告域名可由 HTTPDNS 直接拿真 IP，绕过本地所有过滤'
+  - '||httpdns.bytedance.com^'
 dhcp:
   enabled: false
   interface_name: ""

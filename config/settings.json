@@ -40,10 +40,10 @@
   "enabled": true
  },
  "stats": {
-  "num_dns_queries": 17063,
-  "num_blocked_filtering": 2966,
+  "num_dns_queries": 17576,
+  "num_blocked_filtering": 3031,
   "num_replaced_safebrowsing": 0,
   "num_replaced_safesearch": 8,
-  "avg_processing_time_ms": 284.0
+  "avg_processing_time_ms": 285.4
  }
 }

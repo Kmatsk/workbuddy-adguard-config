@@ -21,7 +21,7 @@
 | 项 | 值 |
 |---|---|
 | 过滤列表 | 22 个，合计 2,185,604 条规则 |
-| 自定义规则 | 102 条（含家长控制、App 广告 SDK、误杀豁免） |
+| 自定义规则 | 113 条（含家长控制、App 广告 SDK、误杀豁免） |
 | 主上游 | `tls://223.5.5.5` + `tls://223.6.6.6`（parallel） |
 | 备用上游 | `tls://1.12.12.12` |
 | 安全搜索 | 开启，7 个引擎（Bing/Google/DuckDuckGo/YouTube/Yandex/Ecosia/Pixabay） |
@@ -35,7 +35,7 @@
 | 文件 | 用途 |
 |---|---|
 | `config/AdGuardHome.yaml` | 完整配置（**密码已脱敏**，恢复后需重新生成） |
-| `config/user-rules.txt` | 102 条自定义过滤规则 |
+| `config/user-rules.txt` | 113 条自定义过滤规则 |
 | `config/filters.json` | 22 个订阅列表的清单（名称 / URL / 开关 / 条数） |
 | `config/settings.json` | 运行态快照：DNS 参数、安全搜索、安全浏览、统计 |
 | `scripts/healthcheck.py` | 体检脚本，纯标准库，任意机器可跑 |
@@ -84,6 +84,36 @@ DNS 层广告治理。依据是该 App 官方公示的《第三方 SDK 目录》
 **不能碰的域名**（App 自身业务链路，误杀会白屏/无法登录）：`b.welife001.com`、
 `allsystemfile.welife001.com`、`service.banjixiaoguanjia.com`、`a.welife001.com`，
 以及微信登录支付 `api.weixin.qq.com`、`open.weixin.qq.com`、`payapp.weixin.qq.com`。
+
+## 字节系 / 小米系 App 广告（2026-11-10）
+
+| App | 广告来源 | DNS 层覆盖 |
+|---|---|---|
+| 番茄小说 / 番茄畅听 | 穿山甲（CSJ） | ✅ `pangolin-sdk-toutiao*.com`、`pglstatp-toutiao.com`、`gromore`、`sf*-fe-tos` 全拦 |
+| 红果免费短剧（`com.phoenix.read`） | 穿山甲 + 优量汇 | ✅ 同上，加 `gdt.qq.com`/`e.qq.com` |
+| 喜番短剧 | 快手联盟 + 穿山甲 | ✅ `ad.kuaishou.com`、`gdfp.gifshow.com`、`adlog.e.kuaishou.*` |
+| 西瓜视频（`com.ss.android.article.video`） | 穿山甲 | ✅ |
+| 小米视频 | 小米广告 | ✅ `api.ad.xiaomi.com`、`ad.xiaomi.com`、`ad.mi.com`、`ad.miui.com`、`adv.sec.miui.com` |
+
+本次新增 3 条旁路封堵（都是日志 + nslookup 实测「仍在放行」的）：
+
+| 规则 | 说明 |
+|---|---|
+| `||b9ad.com^` | B9 广告平台，`t.b9ad.com` 埋点 / `dmmc.b9ad.com` 监测实测活跃 |
+| `||ad.douyin.com^` | 抖音广告投放接口，实测解析到 39.106.179.250 |
+| `||httpdns.bytedance.com^` | 字节 HTTPDNS。不封这条，App 可以绕过本地 DNS 直接拿到广告域名真 IP，前面所有规则都白配 |
+
+**DNS 层做不到的部分（务必知情）**：
+
+- **信息流原生广告**由 App 自己的内容接口下发，与视频/图文同域（`api.dragon.read`、`api.ixigua.com`），拦掉就是白屏
+- **广告素材与内容共用 CDN**：`fqnovelvod.com`（番茄小说视频）、`pstatp.com`、`douyincdn.com`，拦域名会连内容一起拦
+- **SDK 预加载缓存**：规则生效后，已缓存的广告素材仍可能显示几小时到一两天
+- **IP 直连**：App 若缓存了广告服务器 IP，连接不经 DNS，完全不受影响
+
+所以这五款的正确姿势是：DNS 把联盟广告的填充率压到最低，剩下的原生位/缓存位靠无障碍点击跳过（GKD、李跳跳）。
+
+**回滚**：`||httpdns.bytedance.com^` 若导致字节系 App 首次加载变慢或网络异常，删这一行即可；
+`||b9ad.com^`、`||ad.douyin.com^` 可直接删，不影响其他规则。
 
 ## 体检
 
