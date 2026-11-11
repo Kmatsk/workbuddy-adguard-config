@@ -1,0 +1,25 @@
+services:
+  adguardhome:
+    image: adguard/adguardhome:latest
+    container_name: adguardhome
+    restart: unless-stopped
+    # 必须 host 网络：DNS 走 53，桥接模式下上游查询会被 v2rayA 的 DNS 劫持截走
+    network_mode: host
+    mem_limit: 384m
+    # NAS 内存只有 3.7G：限制 Go 堆上限，防止长期运行后碎片堆积到 900MB+
+    environment:
+      - GOMEMLIMIT=280MiB
+      - GOGC=50
+    # host 网络下 Docker 会提示 "Published ports are discarded"，运行时不生效；
+    # 但映射仍写入容器配置，飞牛 Docker 界面据此显示端口并提供「快捷访问」。
+    # 实际可达靠 host 网络本身：面板 http://192.168.3.100:3000、DNS 192.168.3.100:53
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./work:/opt/adguardhome/work
+      - ./conf:/opt/adguardhome/conf
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
