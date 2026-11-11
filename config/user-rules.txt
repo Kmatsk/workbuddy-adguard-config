@@ -125,3 +125,10 @@
 ! 只拦 ad-sign，内容图片/视频不受影响；开屏素材拿不到会直接跳过。
 ||p3-ad-sign.douyinpic.com^
 ||p3-ad-sign.byteimg.com^
+! ===== 误杀豁免：国家反诈中心 APP（2026-11-11）=====
+! gjfzpt.cn = 国家反诈平台（fzapp/fzapph5/oss 等子域）
+! 被 CHN: AdRules DNS List 的 ||gjfzpt.cn^ 误判为广告，导致 APP 提示"网络失败"
+@@||gjfzpt.cn^
+@@||paydns.wechatpay.cn^
+! 政务域名兜底放行：防止广告/家长控制列表误杀政务 APP（交管12123、医保、个税等）
+@@||gov.cn^

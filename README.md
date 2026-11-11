@@ -21,7 +21,7 @@
 | 项 | 值 |
 |---|---|
 | 过滤列表 | 22 个，合计 2,185,604 条规则 |
-| 自定义规则 | 127 条（含家长控制、App 广告 SDK、误杀豁免） |
+| 自定义规则 | 134 条（含家长控制、App 广告 SDK、误杀豁免） |
 | 主上游 | `tls://223.5.5.5` + `tls://223.6.6.6`（parallel） |
 | 备用上游 | `tls://1.12.12.12` |
 | 安全搜索 | 开启，7 个引擎（Bing/Google/DuckDuckGo/YouTube/Yandex/Ecosia/Pixabay） |
@@ -35,7 +35,7 @@
 | 文件 | 用途 |
 |---|---|
 | `config/AdGuardHome.yaml` | 完整配置（**密码已脱敏**，恢复后需重新生成） |
-| `config/user-rules.txt` | 127 条自定义过滤规则 |
+| `config/user-rules.txt` | 134 条自定义过滤规则 |
 | `config/filters.json` | 22 个订阅列表的清单（名称 / URL / 开关 / 条数） |
 | `config/settings.json` | 运行态快照：DNS 参数、安全搜索、安全浏览、统计 |
 | `scripts/healthcheck.py` | 体检脚本，纯标准库，任意机器可跑 |
@@ -166,6 +166,34 @@ DNS 层广告治理。依据是该 App 官方公示的《第三方 SDK 目录》
 
 DNS 仍然拦不到的部分：视频类开屏（素材与正片共用 `douyinvod` CDN）、
 广告内容由主接口下发这一点本身。
+
+## 误杀豁免：国家反诈中心 APP（2026-11-11）
+
+现象：反诈 APP 在 WiFi 下提示「网络失败」，切 4G 正常。
+
+**根因**：`CHN: AdRules DNS List`（adguardteam filter_29）里的 `||gjfzpt.cn^` 把
+**国家反诈平台**整个域判成广告。该域下全是 APP 必需接口：
+
+| 域名 | 用途 |
+|---|---|
+| `fzapp.gjfzpt.cn` | APP 主接口（登录、预警、举报） |
+| `fzapph5.gjfzpt.cn` | 内置 H5 页面 |
+| `oss.gjfzpt.cn` | 图片/附件对象存储 |
+
+修复（用户规则 127 → 134）：
+
+```
+@@||gjfzpt.cn^          # 反诈平台整站放行
+@@||paydns.wechatpay.cn^ # 微信支付 DNS，被「家长控制-防DNS绕过」误拦
+@@||gov.cn^              # 政务域名兜底，防交管12123/医保/个税类 APP 再被误杀
+```
+
+验证：三个反诈子域返回 `NotFilteredWhiteList`；`www.mps.gov.cn`、`gab.122.gov.cn` 同样放行；
+广告拦截未受影响（`p3-ad-sign.douyinpic.com` 仍为 `FilteredBlackList`，
+`p3-sign.douyinpic.com` 正常放行）。
+
+**注意**：AdGuard 对被拦域名返回 `0.0.0.0` 时会缓存 300 秒（`blocked_response_ttl`），
+所以改完规则后手机侧最多要等 5 分钟，或开关一次飞行模式让缓存失效。
 
 ## 体检
 
