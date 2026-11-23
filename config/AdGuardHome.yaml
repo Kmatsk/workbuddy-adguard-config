@@ -1,7 +1,4 @@
 http:
-  pprof:
-    port: 6060
-    enabled: false
   doh:
     routes:
       - GET /dns-query
@@ -9,6 +6,9 @@ http:
       - GET /dns-query/{ClientID}
       - POST /dns-query/{ClientID}
     insecure_enabled: false
+  pprof:
+    port: 6060
+    enabled: false
   address: 0.0.0.0:3000
   session_ttl: 30d
 users:
@@ -20,66 +20,66 @@ http_proxy: ""
 language: ""
 theme: auto
 dns:
-  bind_hosts:
-    - 192.168.3.100
-  port: 53
-  anonymize_client_ip: false
-  ratelimit: 0
-  ratelimit_subnet_len_ipv4: 24
-  ratelimit_subnet_len_ipv6: 56
-  ratelimit_whitelist: []
-  refuse_any: true
-  upstream_dns:
-    - tls://223.5.5.5
-    - tls://223.6.6.6
-  upstream_dns_file: ""
-  bootstrap_dns:
-    - 223.5.5.5
-    - 119.29.29.29
-  fallback_dns:
-    - tls://1.12.12.12
-  upstream_mode: parallel
-  fastest_timeout: 1s
-  allowed_clients: []
-  disallowed_clients: []
-  blocked_hosts:
-    - version.bind
-    - id.server
-    - hostname.bind
-  trusted_proxies:
-    - 127.0.0.0/8
-    - ::1/128
-  cache_enabled: true
-  cache_size: 8388608
-  cache_ttl_min: 60
-  cache_ttl_max: 3600
-  cache_optimistic: true
-  cache_optimistic_answer_ttl: 30s
-  cache_optimistic_max_age: 12h
-  bogus_nxdomain: []
-  aaaa_disabled: false
-  enable_dnssec: false
   edns_client_subnet:
     custom_ip: ""
     enabled: false
     use_custom: false
-  max_goroutines: 300
-  handle_ddr: true
-  ipset: []
-  ipset_file: ""
-  bootstrap_prefer_ipv6: false
-  upstream_timeout: 3s
-  private_networks: []
-  use_private_ptr_resolvers: false
-  local_ptr_upstreams: []
-  use_dns64: false
-  dns64_prefixes: []
-  serve_http3: false
-  use_http3_upstreams: false
-  serve_plain_dns: true
-  hostsfile_enabled: true
   pending_requests:
     enabled: true
+  ipset_file: ""
+  upstream_dns_file: ""
+  upstream_mode: parallel
+  bind_hosts:
+    - 192.168.3.100
+  ratelimit_whitelist: []
+  dns64_prefixes: []
+  private_networks: []
+  trusted_proxies:
+    - 127.0.0.0/8
+    - ::1/128
+  allowed_clients: []
+  blocked_hosts:
+    - version.bind
+    - id.server
+    - hostname.bind
+  bogus_nxdomain: []
+  bootstrap_dns:
+    - 223.5.5.5
+    - 119.29.29.29
+  disallowed_clients: []
+  fallback_dns:
+    - tls://1.12.12.12
+  ipset: []
+  local_ptr_upstreams: []
+  upstream_dns:
+    - tls://223.5.5.5
+    - tls://223.6.6.6
+  cache_optimistic_answer_ttl: 30s
+  cache_optimistic_max_age: 12h
+  fastest_timeout: 1s
+  upstream_timeout: 3s
+  max_goroutines: 300
+  ratelimit_subnet_len_ipv4: 24
+  ratelimit_subnet_len_ipv6: 56
+  cache_ttl_max: 3600
+  cache_ttl_min: 60
+  cache_size: 8388608
+  ratelimit: 0
+  port: 53
+  aaaa_disabled: false
+  anonymize_client_ip: false
+  bootstrap_prefer_ipv6: false
+  cache_enabled: true
+  cache_optimistic: true
+  enable_dnssec: false
+  handle_ddr: true
+  hostsfile_enabled: true
+  refuse_any: true
+  serve_http3: false
+  serve_plain_dns: true
+  use_dns64: false
+  use_http3_upstreams: false
+  use_private_ptr_resolvers: false
 tls:
   enabled: false
   server_name: ""
@@ -97,11 +97,11 @@ tls:
 querylog:
   dir_path: ""
   ignored: []
-  interval: 90d
+  interval: 7d
   size_memory: 1000
   enabled: true
-  ignored_enabled: false
   file_enabled: true
+  ignored_enabled: false
 statistics:
   dir_path: ""
   ignored: []
@@ -333,61 +333,105 @@ user_rules:
   - '@@||paydns.wechatpay.cn^'
   - '! 政务域名兜底放行：防止广告/家长控制列表误杀政务 APP（交管12123、医保、个税等）'
   - '@@||gov.cn^'
+  - '@@||apiv4-iyes.cp12.ott.cibntv.net^'
+  - '@@||iyes.cp12.ott.cibntv.net^'
+  - '||adx-open-service.youku.com^'
+  - '||yk-ssp.ad.youku.com^'
+  - '||yk-ssp-ad.cp31.ott.cibntv.net^$important'
+  - '||yk-ssp-ad.cp12.ott.cibntv.net^$important'
+  - '||cad.youku.com^'
+  - '||hub5pn.v6.sandai.net^'
+  - '||v6-hub5pnc.sandai.net^'
+  - '||pr-v6-phub.sandai.net^'
+  - '||pr-phub.sandai.net^'
+  - '||gw-phub.sandai.net^'
+  - '||dcache-hub.sandai.net^'
+  - '||dlandroid.rcv.sandai.net^'
+  - '||hub5p.sandai.net^'
+  - '||dlcfg-pc-chub.sandai.net^'
+  - '||ndd-hub.xunlei.com^'
+  - '||rcv-xldc.xunlei.com^'
+  - '@@||ip5.934618.xyz^$important'
+  - '@@||155zy2.com^$important'
+  - '@@||91md.me^$important'
+  - '@@||Naixxzy.com^$important'
+  - '@@||aosikazy.com^$important'
+  - '@@||api.wwzy.tv^$important'
+  - '@@||apilj.com^$important'
+  - '@@||apilsbzy1.com^$important'
+  - '@@||apiyutu.com^$important'
+  - '@@||ckzy.me^$important'
+  - '@@||dadizy11.com^$important'
+  - '@@||dbzy.tv^$important'
+  - '@@||didizy.com^$important'
+  - '@@||doudouzy.com^$important'
+  - '@@||heiliaozy.cc^$important'
+  - '@@||lbapi9.com^$important'
+  - '@@||mtzy.me^$important'
+  - '@@||semaozy1.com^$important'
+  - '@@||shayuapi.com^$important'
+  - '@@||slapibf.com^$important'
+  - '@@||souavzyw.com^$important'
+  - '@@||www.jingpinx.com^$important'
+  - '@@||www.xxibaozyw.com^$important'
+  - '@@||wwzy.tv^$important'
+  - '@@||xiaojizy.live^$important'
+  - '@@||xingba111.com^$important'
+  - '@@||hongniuzy2.com^$important'
+  - '@@||jkunzyapi.com^$important'
+  - '@@||pss.alicdn.com^$important'
+  - '@@||apd-pcdnwxlogin.teg.tencent-cloud.net^$important'
+  - '@@||apd-pcdnwxstat.teg.tencent-cloud.net^$important'
+  - '@@||apd-pcdnwxnat.teg.tencent-cloud.net^$important'
+  - '||youku-dsp-cdn.youku.com^'
+  - '||cad.cp31.ott.cibntv.net^$important'
+  - '||cad.cp12.wasu.tv^'
+  - '||ykad-data.cp12.wasu.tv^'
+  - '||atm.youku.com^'
+  - '||youku-dtv.m.cn.miaozhen.com^'
+  - '||pcapp-data-collect.youku.com^'
+  - '||youku-crm-product.youku.com^'
+  - '||ykatr.youku.com^'
+  - '||ykrec.youku.com^'
+  - '||module.youku.com^'
+  - '||actives.youku.com^'
+  - '||urchin.lstat.youku.com^'
+  - '||ad.api.3g.youku.com^'
+  - '||ad.youku.com^'
+  - '||ads.cibntv.net^'
+  - '||ykad-data.cp31.ott.cibntv.net^$important'
+  - '||yk-ssp-ad.cp31.wasu.tv^'
+  - '||yk-ssp-ad.cp12.wasu.tv^'
+  - '||yk-ssp-ad.cp12.wasuu.tv^'
+  - '@@||cm.bilibili.com^$important'
+  - '@@||data.bilibili.com^$important'
+  - '@@||apps.cp12.wasu.tv^$important'
+  - '@@||epg.cibntv.net^$important'
+  - '@@||dataflow.biliapi.com^$important'
 dhcp:
-  enabled: false
-  interface_name: ""
-  local_domain_name: lan
   dhcpv4:
     gateway_ip: ""
-    subnet_mask: ""
     range_start: ""
     range_end: ""
-    lease_duration: 86400
-    icmp_timeout_msec: 1000
+    subnet_mask: ""
     options: []
+    icmp_timeout_msec: 1000
+    lease_duration: 86400
   dhcpv6:
     range_start: ""
     lease_duration: 86400
     ra_slaac_only: false
     ra_allow_slaac: false
+  interface_name: ""
+  local_domain_name: lan
+  enabled: false
 filtering:
   blocking_ipv4: ""
   blocking_ipv6: ""
   blocked_services:
     schedule:
       time_zone: UTC
-    ids:
-      - activision_blizzard
-      - battle_net
-      - betano
-      - betfair
-      - betway
-      - blaze
-      - blizzard_entertainment
-      - electronic_arts
-      - epic_games
-      - fdj_united
-      - gog
-      - grindr
-      - io_interactive
-      - leagueoflegends
-      - minecraft
-      - nintendo
-      - origin
-      - playstation
-      - plenty_of_fish
-      - riot_games
-      - roblox
-      - rockstar_games
-      - shell_shockers
-      - steam
-      - tinder
-      - ubisoft
-      - valorant
-      - wargaming
-      - warnerbrosgames
-      - wizz
-      - xboxlive
+    ids: []
   protection_disabled_until: null
   safe_search:
     enabled: true
@@ -414,7 +458,7 @@ filtering:
   filtering_enabled: true
   rewrites_enabled: true
   parental_enabled: false
-  safebrowsing_enabled: true
+  safebrowsing_enabled: false
   protection_enabled: true
 clients:
   runtime_sources:
@@ -425,16 +469,16 @@ clients:
     hosts: true
   persistent: []
 log:
-  enabled: true
   file: ""
+  max_age: 3
   max_backups: 0
   max_size: 100
-  max_age: 3
   compress: false
+  enabled: true
   local_time: false
   verbose: false
 os:
   group: ""
   user: ""
   rlimit_nofile: 0
-schema_version: 34
+schema_version: 35
